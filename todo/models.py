@@ -11,17 +11,17 @@ class Task(models.Model):
     is_completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user
+        return self.title
 
     class Meta:
         order_with_respect_to = "user"
 
 
-class TaskLine(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField(blank=True,null=True)
-    task = models.ForeignKey('Task',on_delete=models.CASCADE,related_name='tasklines')
-    is_completed = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.task.title
+# class TaskLine(models.Model):
+#     title = models.CharField(max_length=255)
+#     description = models.TextField(blank=True,null=True)
+#     task = models.ForeignKey('Task',on_delete=models.CASCADE,related_name='tasklines')
+#     is_completed = models.BooleanField(default=False)
+#
+#     def __str__(self):
+#         return self.task.title

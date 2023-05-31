@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Task List
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        <h3>{{ request.user }}</h3>
+        {# add task form  #}
+        <form class="pt-3" method="POST" action="{% url 'task-add' %}">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <input type="text" class="form-control rounded-4" name="title" placeholder="Enter task title"
+                       aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-primary" type="submit">Add</button>
+            </div>
+        </form>
+        {# list of tasks#}
+        {% for task in tasks %}
+            <div class="d-flex justify-content-center align-items-center w-75">
+
+                <div class="col-md-8">
+                    {% if task.is_completed == True %}
+                        <h2><strike>{{ task.title }}</strike></h2>
+                    {% else %}
+                        <h2> {{ task.title }}</h2>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-4">
+                    <a href="{% url 'task-delete' pk=task.id %}" class="btn btn-danger p-3 m-2">Delete</a>
+                    <a href="{% url 'task-update' pk=task.id %}" class="btn btn-primary p-3 m-2">Edit</a>
+                    {% if task.is_completed == False %}
+                        <a href="{% url 'task-complete' pk=task.id %}" class="btn btn-success p-3 m-2">Done</a>
+                    {% else %}
+                        <a href="{% url 'task-uncomplete' pk=task.id %}" class="btn btn-success p-3 m-2">Back</a>
+                    {% endif %}
+                </div>
+            </div>
+            <hr class="w-75">
+        {% endfor %}
+
+
+    </div>
+{% endblock %}

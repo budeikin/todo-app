@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Delete Confirmation
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <p>Are you sure to delete the item? {{ task.title }}</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Confirm</button>
+        </form>
+    </div>
+{% endblock %}
