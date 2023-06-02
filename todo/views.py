@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView, View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from todo.models import Task
+from todo.forms import TaskUpdateForm
 
 
 class TodoListView(ListView):
@@ -17,7 +18,7 @@ class TodoListView(ListView):
 class CreateTaskView(CreateView):
     model = Task
     fields = ['title']
-    success_url = '/todo/list'
+    success_url = '/'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -27,13 +28,13 @@ class CreateTaskView(CreateView):
 class DeleteTaskView(DeleteView):
     model = Task
     context_object_name = 'task'
-    success_url = '/todo/list'
+    success_url = '/'
 
 
 class UpdateTaskView(UpdateView):
     model = Task
-    fields = ['title']
-    success_url = '/todo/list'
+    form_class = TaskUpdateForm
+    success_url = '/'
     template_name = 'todo/update_task.html'
 
 

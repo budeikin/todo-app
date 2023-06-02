@@ -2,7 +2,7 @@ from django.urls import path
 from todo import views
 
 urlpatterns = [
-    path('list/', views.TodoListView.as_view(), name='task-list'),
+    path('', views.TodoListView.as_view(), name='task-list'),
     path('add/', views.CreateTaskView.as_view(), name='task-add'),
     path('delete/<int:pk>', views.DeleteTaskView.as_view(), name='task-delete'),
     path('update/<int:pk>', views.UpdateTaskView.as_view(), name='task-update'),
