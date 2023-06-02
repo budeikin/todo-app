@@ -1,12 +1,13 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic.base import TemplateView, View
-from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from django.views.generic.base import View
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 from todo.models import Task
 from todo.forms import TaskUpdateForm
 
 
-class TodoListView(ListView):
+class TodoListView(LoginRequiredMixin,ListView):
     model = Task
     template_name = 'todo/todo_list.html'
     context_object_name = 'tasks'
@@ -15,7 +16,7 @@ class TodoListView(ListView):
         return self.model.objects.filter(user=self.request.user)
 
 
-class CreateTaskView(CreateView):
+class CreateTaskView(LoginRequiredMixin,CreateView):
     model = Task
     fields = ['title']
     success_url = '/'
@@ -25,20 +26,20 @@ class CreateTaskView(CreateView):
         return super(CreateTaskView, self).form_valid(form)
 
 
-class DeleteTaskView(DeleteView):
+class DeleteTaskView(LoginRequiredMixin,DeleteView):
     model = Task
     context_object_name = 'task'
     success_url = '/'
 
 
-class UpdateTaskView(UpdateView):
+class UpdateTaskView(LoginRequiredMixin,UpdateView):
     model = Task
     form_class = TaskUpdateForm
     success_url = '/'
     template_name = 'todo/update_task.html'
 
 
-class CompleteView(View):
+class CompleteView(LoginRequiredMixin,View):
     model = Task
     success_url = reverse_lazy('task-list')
 
@@ -49,7 +50,7 @@ class CompleteView(View):
         return redirect(self.success_url)
 
 
-class BackCompleteView(View):
+class BackCompleteView(LoginRequiredMixin,View):
     model = Task
     success_url = reverse_lazy('task-list')
 
